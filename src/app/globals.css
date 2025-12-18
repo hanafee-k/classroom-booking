@@ -1,0 +1,25 @@
+/* src/app/globals.css */
+@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&display=swap');
+
+:root {
+  --primary-color: #2563eb; /* สีน้ำเงินธีมหลัก */
+  --bg-color: #f8fafc;      /* สีพื้นหลังเทาอ่อนๆ สบายตา */
+  --text-color: #1e293b;
+}
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+
+body {
+  font-family: 'Sarabun', sans-serif; /* ใช้ฟอนต์ภาษาไทยสวยๆ */
+  background-color: var(--bg-color);
+  color: var(--text-color);
+}
+
+a {
+  text-decoration: none;
+  color: inherit;
+}

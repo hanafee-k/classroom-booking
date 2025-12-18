@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 16, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/middleware.ts"],"sourcesContent":["import { NextResponse } from 'next/server'\r\nimport type { NextRequest } from 'next/server'\r\n\r\n// ฟังก์ชันนี้จะทำงานทุกครั้งที่มีการเปลี่ยนหน้า\r\nexport function middleware(request: NextRequest) {\r\n  // ตอนนี้ให้ปล่อยผ่านไปก่อน (return next) ยังไม่ต้องเช็คอะไร\r\n  return NextResponse.next()\r\n}\r\n\r\n// กำหนดว่า middleware นี้จะทำงานที่หน้าไหนบ้าง\r\nexport const config = {\r\n  matcher: [\r\n    /*\r\n     * Match all request paths except for the ones starting with:\r\n     * - api (API routes)\r\n     * - _next/static (static files)\r\n     * - _next/image (image optimization files)\r\n     * - favicon.ico (favicon file)\r\n     */\r\n    '/((?!api|_next/static|_next/image|favicon.ico).*)',\r\n  ],\r\n}"],"names":[],"mappings":";;;;;;AAAA;AAAA;;AAIO,SAAS,WAAW,OAAoB;IAC7C,4DAA4D;IAC5D,OAAO,gMAAY,CAAC,IAAI;AAC1B;AAGO,MAAM,SAAS;IACpB,SAAS;QACP;;;;;;KAMC,GACD;KACD;AACH"}}]
+}

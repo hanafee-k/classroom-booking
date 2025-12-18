@@ -1,0 +1,145 @@
+.dashboard-container {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.dashboard-header {
+  margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+  margin: 0;
+  color: #333;
+}
+
+.dashboard-header p {
+  color: #666;
+  margin-top: 5px;
+}
+
+/* Grid Layout: จัดเรียงการ์ดอัตโนมัติ */
+.room-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+/* ตัวการ์ด */
+.room-card {
+  background: white;
+  border-radius: 12px;
+  overflow: hidden; /* ไม่ให้ภาพล้นขอบโค้ง */
+  box-shadow: 0 4px 10px rgba(0,0,0,0.05);
+  transition: transform 0.2s, box-shadow 0.2s;
+  border: 1px solid #eee;
+}
+
+.room-card:hover {
+  transform: translateY(-5px); /* ลอยขึ้นนิดหน่อยตอนชี้ */
+  box-shadow: 0 10px 20px rgba(0,0,0,0.1);
+}
+
+.room-image {
+  height: 180px;
+  background-color: #ddd;
+  position: relative;
+}
+
+.room-image img {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+/* ป้ายสถานะ (มุมขวาบนของภาพ) */
+.status-badge {
+  position: absolute;
+  top: 10px;
+  right: 10px;
+  padding: 4px 10px;
+  border-radius: 20px;
+  font-size: 0.8rem;
+  font-weight: bold;
+  color: white;
+  text-transform: uppercase;
+}
+
+.status-badge.available {
+  background-color: #28a745; /* สีเขียว */
+}
+
+.status-badge.busy {
+  background-color: #dc3545; /* สีแดง */
+}
+
+.room-info {
+  padding: 20px;
+}
+
+.room-info h3 {
+  margin: 0 0 10px 0;
+  font-size: 1.2rem;
+  color: #333;
+}
+
+.room-info p {
+  margin: 0 0 20px 0;
+  color: #777;
+  font-size: 0.95rem;
+}
+
+.btn-book {
+  width: 100%;
+  padding: 10px;
+  border: none;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+/* ปุ่มสีน้ำเงิน (ถ้าว่าง) */
+.btn-book:not(:disabled) {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-book:not(:disabled):hover {
+  background-color: #0056b3;
+}
+
+/* ปุ่มสีเทา (ถ้าไม่ว่าง) */
+.btn-book:disabled {
+  background-color: #e9ecef;
+  color: #adb5bd;
+  cursor: not-allowed;
+}
+
+/* ปุ่มยกเลิก (สีแดง) */
+.btn-cancel {
+  width: 100%;
+  padding: 10px;
+  border: 1px solid #dc3545;
+  background-color: white;
+  color: #dc3545;
+  border-radius: 6px;
+  font-weight: bold;
+  cursor: pointer;
+  transition: all 0.2s;
+}
+
+.btn-cancel:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* กล่องแสดงชื่อคนจอง */
+.booker-info {
+  background-color: #fff3cd; /* สีเหลืองอ่อน */
+  color: #856404;
+  padding: 8px;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  font-size: 0.9rem;
+  border: 1px solid #ffeeba;
+}

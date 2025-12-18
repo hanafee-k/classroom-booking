@@ -1,0 +1,75 @@
+.history-container {
+  padding-top: 40px;
+  max-width: 900px; /* บีบไม่ให้กว้างเกินไป จะได้อ่านง่าย */
+  margin: 0 auto;
+}
+
+.history-container h1 {
+  text-align: center;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.history-container p {
+  text-align: center;
+  color: #666;
+  margin-bottom: 30px;
+}
+
+/* ตารางสวยๆ */
+.table-wrapper {
+  overflow-x: auto; /* เผื่อดูในมือถือแล้วตารางล้น */
+  box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+  border-radius: 10px;
+}
+
+.history-table {
+  width: 100%;
+  border-collapse: collapse;
+  background-color: white;
+  overflow: hidden;
+}
+
+.history-table th,
+.history-table td {
+  padding: 15px;
+  text-align: left;
+  border-bottom: 1px solid #eee;
+}
+
+.history-table th {
+  background-color: #007bff;
+  color: white;
+  font-weight: 500;
+}
+
+.history-table tr:hover {
+  background-color: #f8f9fa; /* ไฮไลท์แถวตอนเอาเมาส์ชี้ */
+}
+
+/* รูปเล็กๆ ในตาราง */
+.room-cell {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  font-weight: bold;
+  color: #444;
+}
+
+.mini-thumb {
+  width: 40px;
+  height: 40px;
+  border-radius: 4px;
+  object-fit: cover;
+  border: 1px solid #ddd;
+}
+
+.student-name {
+  color: #0056b3;
+  font-weight: 500;
+}
+
+.timestamp {
+  color: #666;
+  font-size: 0.9rem;
+}

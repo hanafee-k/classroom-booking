@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 1, "column": 0}, "map": {"version":3,"sources":["turbopack:///[project]/src/app/globals.css"],"sourcesContent":["/* src/app/globals.css */\r\n@import url('https://fonts.googleapis.com/css2?family=Sarabun:wght@300;400;500;600&display=swap');\r\n\r\n:root {\r\n  --primary-color: #2563eb; /* สีน้ำเงินธีมหลัก */\r\n  --bg-color: #f8fafc;      /* สีพื้นหลังเทาอ่อนๆ สบายตา */\r\n  --text-color: #1e293b;\r\n}\r\n\r\n* {\r\n  box-sizing: border-box;\r\n  margin: 0;\r\n  padding: 0;\r\n}\r\n\r\nbody {\r\n  font-family: 'Sarabun', sans-serif; /* ใช้ฟอนต์ภาษาไทยสวยๆ */\r\n  background-color: var(--bg-color);\r\n  color: var(--text-color);\r\n}\r\n\r\na {\r\n  text-decoration: none;\r\n  color: inherit;\r\n}"],"names":[],"mappings":"AAGA;;;;;;AAMA;;;;;;AAMA;;;;;;AAMA"}}]
+}

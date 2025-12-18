@@ -1,0 +1,116 @@
+/* src/app/home.css */
+
+/* จัดให้เนื้อหาเต็มจอ */
+.home-container {
+  min-height: 100vh;
+  background-color: #ffffff;
+  display: flex;
+  flex-direction: column;
+}
+
+/* --- Hero Section (ส่วนบนสุด) --- */
+.hero-section {
+  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); /* ไล่สีพื้นหลังสวยๆ */
+  padding: 80px 20px;
+  text-align: center;
+  flex-grow: 1; /* ดันให้เต็มพื้นที่ */
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.hero-content {
+  max-width: 800px;
+  margin: 0 auto;
+}
+
+.hero-title {
+  font-size: 3.5rem;
+  font-weight: 800;
+  color: #333;
+  line-height: 1.2;
+  margin-bottom: 20px;
+}
+
+.highlight {
+  color: #007bff; /* สีเน้นข้อความ */
+}
+
+.hero-subtitle {
+  font-size: 1.2rem;
+  color: #666;
+  margin-bottom: 40px;
+  line-height: 1.6;
+}
+
+/* ปุ่มกดในหน้าแรก */
+.hero-buttons {
+  display: flex;
+  gap: 15px;
+  justify-content: center;
+}
+
+.btn-primary {
+  background-color: #007bff;
+  color: white;
+  padding: 12px 30px;
+  border-radius: 50px; /* ปุ่มมนๆ */
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  transition: transform 0.2s, box-shadow 0.2s;
+  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
+}
+
+.btn-primary:hover {
+  background-color: #0056b3;
+  transform: translateY(-2px);
+}
+
+.btn-secondary {
+  background-color: white;
+  color: #333;
+  padding: 12px 30px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: bold;
+  font-size: 1.1rem;
+  border: 1px solid #ddd;
+  transition: background-color 0.2s;
+}
+
+.btn-secondary:hover {
+  background-color: #f8f9fa;
+  border-color: #ccc;
+}
+
+/* --- Features Section (ส่วนจุดเด่นด้านล่าง) --- */
+.features-section {
+  display: flex;
+  justify-content: center;
+  gap: 40px;
+  padding: 60px 20px;
+  background-color: white;
+  flex-wrap: wrap;
+}
+
+.feature-item {
+  text-align: center;
+  max-width: 250px;
+}
+
+.feature-item .icon {
+  font-size: 3rem;
+  margin-bottom: 15px;
+}
+
+.feature-item h3 {
+  font-size: 1.2rem;
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.feature-item p {
+  color: #777;
+  font-size: 0.95rem;
+}

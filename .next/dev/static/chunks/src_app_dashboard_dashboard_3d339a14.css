@@ -1,0 +1,141 @@
+/* [project]/src/app/dashboard/dashboard.css [app-client] (css) */
+.dashboard-container {
+  padding-top: 40px;
+  padding-bottom: 40px;
+}
+
+.dashboard-header {
+  margin-bottom: 30px;
+}
+
+.dashboard-header h1 {
+  color: #333;
+  margin: 0;
+}
+
+.dashboard-header p {
+  color: #666;
+  margin-top: 5px;
+}
+
+.room-grid {
+  grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+  gap: 25px;
+  display: grid;
+}
+
+.room-card {
+  background: #fff;
+  border: 1px solid #eee;
+  border-radius: 12px;
+  transition: transform .2s, box-shadow .2s;
+  overflow: hidden;
+  box-shadow: 0 4px 10px #0000000d;
+}
+
+.room-card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 20px #0000001a;
+}
+
+.room-image {
+  background-color: #ddd;
+  height: 180px;
+  position: relative;
+}
+
+.room-image img {
+  object-fit: cover;
+  width: 100%;
+  height: 100%;
+}
+
+.status-badge {
+  color: #fff;
+  text-transform: uppercase;
+  border-radius: 20px;
+  padding: 4px 10px;
+  font-size: .8rem;
+  font-weight: bold;
+  position: absolute;
+  top: 10px;
+  right: 10px;
+}
+
+.status-badge.available {
+  background-color: #28a745;
+}
+
+.status-badge.busy {
+  background-color: #dc3545;
+}
+
+.room-info {
+  padding: 20px;
+}
+
+.room-info h3 {
+  color: #333;
+  margin: 0 0 10px;
+  font-size: 1.2rem;
+}
+
+.room-info p {
+  color: #777;
+  margin: 0 0 20px;
+  font-size: .95rem;
+}
+
+.btn-book {
+  cursor: pointer;
+  border: none;
+  border-radius: 6px;
+  width: 100%;
+  padding: 10px;
+  font-weight: bold;
+  transition: background .2s;
+}
+
+.btn-book:not(:disabled) {
+  color: #fff;
+  background-color: #007bff;
+}
+
+.btn-book:not(:disabled):hover {
+  background-color: #0056b3;
+}
+
+.btn-book:disabled {
+  color: #adb5bd;
+  cursor: not-allowed;
+  background-color: #e9ecef;
+}
+
+.btn-cancel {
+  color: #dc3545;
+  cursor: pointer;
+  background-color: #fff;
+  border: 1px solid #dc3545;
+  border-radius: 6px;
+  width: 100%;
+  padding: 10px;
+  font-weight: bold;
+  transition: all .2s;
+}
+
+.btn-cancel:hover {
+  color: #fff;
+  background-color: #dc3545;
+}
+
+.booker-info {
+  color: #856404;
+  background-color: #fff3cd;
+  border: 1px solid #ffeeba;
+  border-radius: 4px;
+  margin-bottom: 15px;
+  padding: 8px;
+  font-size: .9rem;
+}
+
+/*# sourceMappingURL=src_app_dashboard_dashboard_3d339a14.css.map*/
