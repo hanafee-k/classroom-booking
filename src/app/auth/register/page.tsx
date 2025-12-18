@@ -41,7 +41,8 @@ export default function RegisterPage() {
     try {
       // 2. ส่งข้อมูลไปสมัครกับ Supabase Auth
       const { data: authData, error: authError } = await supabase.auth.signUp({
-        email: formData.email,
+        // 👇👇 แก้ตรงนี้ครับ: เติม .trim() เพื่อตัดช่องว่างหน้า-หลังทิ้งอัตโนมัติ 👇👇
+        email: formData.email.trim(), 
         password: formData.password,
       });
 
