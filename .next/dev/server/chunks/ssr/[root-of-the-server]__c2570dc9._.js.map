@@ -1,0 +1,6 @@
+{
+  "version": 3,
+  "sources": [],
+  "sections": [
+    {"offset": {"line": 14, "column": 0}, "map": {"version":3,"sources":["file:///D:/my-classroom-app/src/app/auth/register/page.tsx"],"sourcesContent":["import Link from 'next/link';\r\n\r\nexport default function RegisterPage() {\r\n  return (\r\n    <div style={{ padding: '50px', textAlign: 'center' }}>\r\n      <h1>สมัครสมาชิก</h1>\r\n      <p>ระบบสมัครสมาชิกยังไม่เปิดใช้งานครับ</p>\r\n      <Link href=\"/auth/login\" style={{ color: 'blue', textDecoration: 'underline' }}>\r\n        กลับไปหน้าเข้าสู่ระบบ\r\n      </Link>\r\n    </div>\r\n  );\r\n}"],"names":[],"mappings":";;;;;AAAA;;;AAEe,SAAS;IACtB,qBACE,8OAAC;QAAI,OAAO;YAAE,SAAS;YAAQ,WAAW;QAAS;;0BACjD,8OAAC;0BAAG;;;;;;0BACJ,8OAAC;0BAAE;;;;;;0BACH,8OAAC,0LAAI;gBAAC,MAAK;gBAAc,OAAO;oBAAE,OAAO;oBAAQ,gBAAgB;gBAAY;0BAAG;;;;;;;;;;;;AAKtF"}}]
+}

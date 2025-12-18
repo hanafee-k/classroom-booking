@@ -1,0 +1,95 @@
+.auth-container {
+  min-height: 80vh;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  padding: 20px;
+  background-color: #f8f9fa;
+}
+
+.auth-card {
+  background: white;
+  padding: 40px;
+  border-radius: 12px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.08);
+  width: 100%;
+  max-width: 450px;
+  text-align: center;
+}
+
+.auth-card h1 {
+  margin-bottom: 10px;
+  color: #333;
+}
+
+.auth-card p {
+  color: #666;
+  margin-bottom: 30px;
+}
+
+.auth-form {
+  text-align: left;
+}
+
+.form-group {
+  margin-bottom: 20px;
+}
+
+.form-group label {
+  display: block;
+  margin-bottom: 8px;
+  font-weight: bold;
+  color: #555;
+}
+
+.form-group input {
+  width: 100%;
+  padding: 12px;
+  border: 1px solid #ddd;
+  border-radius: 6px;
+  font-size: 1rem;
+  transition: border-color 0.2s;
+}
+
+.form-group input:focus {
+  outline: none;
+  border-color: #007bff;
+}
+
+.btn-auth {
+  width: 100%;
+  padding: 12px;
+  background-color: #007bff;
+  color: white;
+  border: none;
+  border-radius: 6px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  transition: background 0.2s;
+}
+
+.btn-auth:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+
+.btn-auth:disabled {
+  background-color: #ccc;
+  cursor: not-allowed;
+}
+
+.auth-footer {
+  margin-top: 20px;
+  color: #666;
+  font-size: 0.9rem;
+}
+
+.auth-footer a {
+  color: #007bff;
+  text-decoration: none;
+  font-weight: bold;
+}
+
+.auth-footer a:hover {
+  text-decoration: underline;
+}
