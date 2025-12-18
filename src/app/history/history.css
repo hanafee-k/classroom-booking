@@ -73,3 +73,32 @@
   color: #666;
   font-size: 0.9rem;
 }
+
+/* --- 📱 Mobile Responsive --- */
+@media (max-width: 768px) {
+  .history-container {
+    padding-top: 20px;
+  }
+
+  .history-container h1 {
+    font-size: 1.6rem;
+  }
+  
+  /* ในมือถือ ตารางจะเลื่อนซ้ายขวาได้ */
+  .table-wrapper {
+    box-shadow: none; /* ลดเงาลงหน่อย */
+    border: 1px solid #ddd;
+  }
+  
+  /* ปรับขนาดฟอนต์ให้เล็กลงนิดนึงจะได้จุได้เยอะขึ้น */
+  .history-table th, 
+  .history-table td {
+    padding: 12px 10px;
+    font-size: 0.9rem;
+  }
+
+  .mini-thumb {
+    width: 40px;
+    height: 40px;
+  }
+}

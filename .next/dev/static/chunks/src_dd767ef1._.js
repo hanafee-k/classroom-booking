@@ -27,7 +27,7 @@ __turbopack_context__.s([
 ]);
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/jsx-dev-runtime.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$index$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/compiled/react/index.js [app-client] (ecmascript)");
-var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)"); // สำหรับเปลี่ยนหน้า
+var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/navigation.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/node_modules/next/dist/client/app-dir/link.js [app-client] (ecmascript)");
 var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$supabase$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__ = __turbopack_context__.i("[project]/src/utils/supabase.ts [app-client] (ecmascript)");
 ;
@@ -48,36 +48,37 @@ function RegisterPage() {
         password: '',
         confirmPassword: ''
     });
-    // ฟังก์ชันจัดการการพิมพ์ในช่องต่างๆ
     const handleChange = (e)=>{
         setFormData({
             ...formData,
             [e.target.name]: e.target.value
         });
     };
-    // ฟังก์ชันเมื่อกดปุ่มสมัครสมาชิก
     const handleRegister = async (e)=>{
         e.preventDefault();
         setLoading(true);
-        // 1. ตรวจสอบความถูกต้องเบื้องต้น
-        if (formData.password !== formData.confirmPassword) {
-            alert('❌ รหัสผ่านไม่ตรงกันครับ');
+        // --- ส่วนตรวจสอบ (Debug) ---
+        // ตัดช่องว่างออกให้ชัวร์ๆ
+        const cleanEmail = formData.email.trim();
+        const cleanPassword = formData.password.trim();
+        // เช็คก่อนส่ง: ให้ Alert ออกมาดูเลยว่ามีช่องว่างแอบอยู่ไหม
+        // ถ้าเห็นเป็น [ kalupae... ] (มีเว้นวรรคในวงเล็บ) แปลว่าช่องว่างยังอยู่
+        if (!confirm(`กำลังจะสมัครด้วยอีเมล: [${cleanEmail}]\nยืนยันความถูกต้อง?`)) {
             setLoading(false);
             return;
         }
-        if (formData.password.length < 6) {
-            alert('❌ รหัสผ่านต้องมีอย่างน้อย 6 ตัวอักษรครับ');
+        if (cleanPassword !== formData.confirmPassword.trim()) {
+            alert('❌ รหัสผ่านไม่ตรงกัน');
             setLoading(false);
             return;
         }
         try {
-            // 2. ส่งข้อมูลไปสมัครกับ Supabase Auth
+            // ส่งค่าที่ clean แล้วไปให้ Supabase
             const { data: authData, error: authError } = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$supabase$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].auth.signUp({
-                email: formData.email,
-                password: formData.password
+                email: cleanEmail,
+                password: cleanPassword
             });
             if (authError) throw authError;
-            // 3. ถ้าสมัครผ่าน ให้บันทึกชื่อเต็มลงตาราง profiles
             if (authData.user) {
                 const { error: profileError } = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$supabase$2e$ts__$5b$app$2d$client$5d$__$28$ecmascript$29$__["supabase"].from('profiles').insert([
                     {
@@ -85,13 +86,9 @@ function RegisterPage() {
                         full_name: formData.fullName
                     }
                 ]);
-                if (profileError) {
-                    // ถ้าบันทึกโปรไฟล์ไม่ผ่าน อาจจะแจ้งเตือน (แต่ user ถูกสร้างแล้วใน auth)
-                    console.error('Profile creation failed:', profileError);
-                }
             }
             alert('✅ สมัครสมาชิกสำเร็จ! กรุณาเข้าสู่ระบบ');
-            router.push('/auth/login'); // เด้งไปหน้า Login
+            router.push('/auth/login');
         } catch (error) {
             alert(`❌ สมัครไม่ผ่าน: ${error.message}`);
         } finally{
@@ -105,17 +102,10 @@ function RegisterPage() {
                 className: "auth-card",
                 children: [
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("h1", {
-                        children: "🚀 สมัครสมาชิกใหม่"
+                        children: "🕵️‍♂️ สมัครสมาชิก (Debug Mode)"
                     }, void 0, false, {
                         fileName: "[project]/src/app/auth/register/page.tsx",
-                        lineNumber: 81,
-                        columnNumber: 11
-                    }, this),
-                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("p", {
-                        children: "สร้างบัญชีเพื่อเริ่มใช้งานระบบจองห้องเรียน"
-                    }, void 0, false, {
-                        fileName: "[project]/src/app/auth/register/page.tsx",
-                        lineNumber: 82,
+                        lineNumber: 79,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("form", {
@@ -129,14 +119,40 @@ function RegisterPage() {
                                         children: "ชื่อ-นามสกุล"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/auth/register/page.tsx",
-                                        lineNumber: 86,
+                                        lineNumber: 82,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                         type: "text",
                                         name: "fullName",
-                                        placeholder: "สมชาย ใจดี",
                                         value: formData.fullName,
+                                        onChange: handleChange,
+                                        required: true
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/auth/register/page.tsx",
+                                        lineNumber: 83,
+                                        columnNumber: 15
+                                    }, this)
+                                ]
+                            }, void 0, true, {
+                                fileName: "[project]/src/app/auth/register/page.tsx",
+                                lineNumber: 81,
+                                columnNumber: 13
+                            }, this),
+                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
+                                className: "form-group",
+                                children: [
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
+                                        children: "อีเมล"
+                                    }, void 0, false, {
+                                        fileName: "[project]/src/app/auth/register/page.tsx",
+                                        lineNumber: 86,
+                                        columnNumber: 15
+                                    }, this),
+                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
+                                        type: "email",
+                                        name: "email",
+                                        value: formData.email,
                                         onChange: handleChange,
                                         required: true
                                     }, void 0, false, {
@@ -154,56 +170,27 @@ function RegisterPage() {
                                 className: "form-group",
                                 children: [
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                        children: "อีเมล"
+                                        children: "รหัสผ่าน"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/auth/register/page.tsx",
-                                        lineNumber: 98,
-                                        columnNumber: 15
-                                    }, this),
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
-                                        type: "email",
-                                        name: "email",
-                                        placeholder: "example@email.com",
-                                        value: formData.email,
-                                        onChange: handleChange,
-                                        required: true
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/auth/register/page.tsx",
-                                        lineNumber: 99,
-                                        columnNumber: 15
-                                    }, this)
-                                ]
-                            }, void 0, true, {
-                                fileName: "[project]/src/app/auth/register/page.tsx",
-                                lineNumber: 97,
-                                columnNumber: 13
-                            }, this),
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
-                                className: "form-group",
-                                children: [
-                                    /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("label", {
-                                        children: "รหัสผ่าน (6 ตัวขึ้นไป)"
-                                    }, void 0, false, {
-                                        fileName: "[project]/src/app/auth/register/page.tsx",
-                                        lineNumber: 110,
+                                        lineNumber: 90,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                         type: "password",
                                         name: "password",
-                                        placeholder: "••••••",
                                         value: formData.password,
                                         onChange: handleChange,
                                         required: true
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/auth/register/page.tsx",
-                                        lineNumber: 111,
+                                        lineNumber: 91,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/auth/register/page.tsx",
-                                lineNumber: 109,
+                                lineNumber: 89,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -213,75 +200,71 @@ function RegisterPage() {
                                         children: "ยืนยันรหัสผ่าน"
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/auth/register/page.tsx",
-                                        lineNumber: 122,
+                                        lineNumber: 94,
                                         columnNumber: 15
                                     }, this),
                                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("input", {
                                         type: "password",
                                         name: "confirmPassword",
-                                        placeholder: "••••••",
                                         value: formData.confirmPassword,
                                         onChange: handleChange,
                                         required: true
                                     }, void 0, false, {
                                         fileName: "[project]/src/app/auth/register/page.tsx",
-                                        lineNumber: 123,
+                                        lineNumber: 95,
                                         columnNumber: 15
                                     }, this)
                                 ]
                             }, void 0, true, {
                                 fileName: "[project]/src/app/auth/register/page.tsx",
-                                lineNumber: 121,
+                                lineNumber: 93,
                                 columnNumber: 13
                             }, this),
                             /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
                                 type: "submit",
                                 className: "btn-auth",
                                 disabled: loading,
-                                children: loading ? '⏳ กำลังสมัคร...' : 'สมัครสมาชิก'
+                                children: loading ? '⏳...' : 'สมัครสมาชิก'
                             }, void 0, false, {
                                 fileName: "[project]/src/app/auth/register/page.tsx",
-                                lineNumber: 133,
+                                lineNumber: 97,
                                 columnNumber: 13
                             }, this)
                         ]
                     }, void 0, true, {
                         fileName: "[project]/src/app/auth/register/page.tsx",
-                        lineNumber: 84,
+                        lineNumber: 80,
                         columnNumber: 11
                     }, this),
                     /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
                         className: "auth-footer",
-                        children: [
-                            "มีบัญชีอยู่แล้ว? ",
-                            /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
-                                href: "/auth/login",
-                                children: "เข้าสู่ระบบที่นี่"
-                            }, void 0, false, {
-                                fileName: "[project]/src/app/auth/register/page.tsx",
-                                lineNumber: 139,
-                                columnNumber: 30
-                            }, this)
-                        ]
-                    }, void 0, true, {
+                        children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$compiled$2f$react$2f$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$client$5d$__$28$ecmascript$29$__["default"], {
+                            href: "/auth/login",
+                            children: "กลับไปเข้าสู่ระบบ"
+                        }, void 0, false, {
+                            fileName: "[project]/src/app/auth/register/page.tsx",
+                            lineNumber: 102,
+                            columnNumber: 13
+                        }, this)
+                    }, void 0, false, {
                         fileName: "[project]/src/app/auth/register/page.tsx",
-                        lineNumber: 138,
+                        lineNumber: 101,
                         columnNumber: 11
                     }, this)
                 ]
             }, void 0, true, {
                 fileName: "[project]/src/app/auth/register/page.tsx",
-                lineNumber: 80,
+                lineNumber: 78,
                 columnNumber: 9
             }, this)
         }, void 0, false, {
             fileName: "[project]/src/app/auth/register/page.tsx",
-            lineNumber: 79,
+            lineNumber: 77,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/app/auth/register/page.tsx",
-        lineNumber: 78,
+        lineNumber: 76,
         columnNumber: 5
     }, this);
 }

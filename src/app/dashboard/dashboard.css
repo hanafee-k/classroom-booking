@@ -143,3 +143,28 @@
   font-size: 0.9rem;
   border: 1px solid #ffeeba;
 }
+
+/* --- 📱 Mobile Responsive --- */
+@media (max-width: 576px) {
+  .dashboard-container {
+    padding-top: 20px;
+  }
+
+  .dashboard-header h1 {
+    font-size: 1.8rem;
+  }
+
+  .room-grid {
+    grid-template-columns: 1fr; /* เรียงแถวเดียว */
+    padding: 0 15px;
+    gap: 20px;
+  }
+
+  .room-image {
+    height: 180px; /* ลดความสูงรูปลงนิดหน่อย */
+  }
+
+  .room-card {
+    box-shadow: 0 4px 10px rgba(0,0,0,0.05); /* ลดเงาในมือถือให้ดูเบา */
+  }
+}

@@ -114,3 +114,41 @@
   color: #777;
   font-size: 0.95rem;
 }
+
+/* --- เพิ่มเติมต่อท้ายไฟล์เดิม --- */
+
+/* ปรับแต่งเฉพาะหน้าจอมือถือ (Mobile) ให้สวยขึ้น */
+@media (max-width: 576px) {
+  /* ลดความสูงของส่วนหัวลงหน่อย ในมือถือจะได้ไม่กินที่ */
+  .hero-section {
+    padding: 60px 15px;
+    min-height: auto; /* ให้สูงตามเนื้อหาพอ ไม่ต้องฟิก */
+  }
+
+  /* ปรับขนาดตัวหนังสือให้พอดีตา */
+  .hero-title {
+    font-size: 1.8rem; /* ลดขนาดหัวข้อ */
+    margin-bottom: 15px;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+    margin-bottom: 30px;
+  }
+
+  /* ปรับปุ่มให้เต็มความกว้าง (กดง่ายในมือถือ) */
+  .hero-buttons {
+    flex-direction: column; /* เรียงปุ่มแนวตั้ง */
+    width: 100%;
+  }
+
+  .btn-primary, .btn-secondary {
+    width: 100%; /* ปุ่มกว้างเต็มจอ */
+    text-align: center;
+  }
+
+  /* ปรับการ์ดฟีเจอร์ */
+  .feature-item {
+    padding: 20px; /* ลดขอบการ์ดลงนิดนึง */
+  }
+}

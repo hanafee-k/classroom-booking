@@ -93,3 +93,32 @@
 .auth-footer a:hover {
   text-decoration: underline;
 }
+
+/* --- 📱 Mobile Responsive (มือถือ) --- */
+@media (max-width: 480px) {
+  .auth-container {
+    padding: 15px;
+    align-items: flex-start; /* ดันขึ้นไปด้านบนหน่อยในมือถือ */
+    padding-top: 40px;
+    background: #fff; /* มือถือใช้พื้นขาวไปเลย ดูสะอาดกว่า */
+  }
+
+  .auth-card {
+    box-shadow: none; /* เอากรอบเงาออกในมือถือ */
+    border: none;
+    padding: 20px 0; /* ลด padding */
+  }
+
+  .auth-card h1 {
+    font-size: 1.6rem;
+  }
+
+  .form-group input {
+    font-size: 16px; /* ป้องกัน iOS ซูมเอง */
+    padding: 14px; /* เพิ่มพื้นที่กด */
+  }
+
+  .btn-auth {
+    padding: 15px; /* ปุ่มใหญ่ขึ้นกดง่าย */
+  }
+}

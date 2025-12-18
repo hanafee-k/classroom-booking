@@ -1,59 +1,298 @@
-/* src/components/common/Navbar.css */
 .navbar {
   background-color: #ffffff;
-  box-shadow: 0 2px 4px rgba(0,0,0,0.1);
-  padding: 1rem 0;
+  box-shadow: 0 2px 10px rgba(0, 0, 0, 0.1);
   position: sticky;
   top: 0;
   z-index: 100;
+  padding: 0 20px;
 }
 
-.container {
-  max-width: 1200px;
-  margin: 0 auto;
-  padding: 0 20px;
+.nav-container {
   display: flex;
   justify-content: space-between;
   align-items: center;
+  height: 70px;
+  max-width: 1200px;
+  margin: 0 auto;
 }
 
-.logo {
+.nav-logo {
   font-size: 1.5rem;
   font-weight: bold;
+  color: #007bff;
+  text-decoration: none;
+}
+
+.nav-menu {
+  display: flex;
+  list-style: none;
+  gap: 25px;
+  align-items: center;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
   color: #333;
   text-decoration: none;
-  display: flex;
-  align-items: center;
-  gap: 10px;
-}
-
-.menu {
-  display: flex;
-  gap: 20px;
-  align-items: center;
-}
-
-.menu-item {
-  text-decoration: none;
-  color: #666;
   font-weight: 500;
   transition: color 0.2s;
 }
 
-.menu-item:hover {
-  color: #007bff; /* สีน้ำเงินตอนเอาเมาส์ชี้ */
+.nav-link:hover {
+  color: #007bff;
 }
 
-.btn-login {
+/* ส่วนแสดงชื่อผู้ใช้ */
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-left: 15px;
+  border-left: 1px solid #eee; /* เส้นกั้นบางๆ */
+}
+
+.user-name {
+  color: #007bff;
+  font-weight: bold;
+  font-size: 0.95rem;
+}
+
+/* ปุ่ม Login / Logout ใน Navbar */
+.btn-login-nav {
   background-color: #007bff;
   color: white;
   padding: 8px 20px;
-  border-radius: 5px;
+  border-radius: 20px;
   text-decoration: none;
-  font-weight: 500;
-  transition: background-color 0.2s;
+  transition: background 0.2s;
 }
 
-.btn-login:hover {
+.btn-login-nav:hover {
   background-color: #0056b3;
+}
+
+.btn-logout-nav {
+  background-color: transparent;
+  color: #dc3545;
+  border: 1px solid #dc3545;
+  padding: 6px 15px;
+  border-radius: 20px;
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: all 0.2s;
+}
+
+.btn-logout-nav:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+/* Responsive มือถือ */
+.menu-icon {
+  display: none;
+  font-size: 1.8rem;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .menu-icon {
+    display: block;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 70px;
+    left: -100%;
+    width: 100%;
+    background-color: white;
+    flex-direction: column;
+    padding: 20px 0;
+    transition: 0.3s;
+    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+  }
+
+  .nav-menu.active {
+    left: 0;
+  }
+  
+  .user-section {
+    flex-direction: column;
+    border-left: none;
+    padding-left: 0;
+    margin-top: 10px;
+    gap: 10px;
+  }
+}
+
+/* --- 1. สไตล์หลัก (Desktop) --- */
+.navbar {
+  background-color: #ffffff;
+  box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
+  position: sticky; /* ให้เมนูติดด้านบนตลอด */
+  top: 0;
+  z-index: 100;
+  height: 70px;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+}
+
+.nav-container {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  width: 100%;
+  max-width: 1200px;
+  padding: 0 20px;
+}
+
+.nav-logo {
+  font-size: 1.5rem;
+  font-weight: 800;
+  color: #007bff;
+  text-decoration: none;
+  letter-spacing: -0.5px;
+}
+
+.nav-menu {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+  list-style: none;
+  margin: 0;
+  padding: 0;
+}
+
+.nav-link {
+  color: #555;
+  text-decoration: none;
+  font-weight: 500;
+  font-size: 1rem;
+  transition: color 0.2s ease;
+}
+
+.nav-link:hover {
+  color: #007bff;
+}
+
+/* ปุ่มเมนู Hamburger (ซ่อนไว้ก่อนในจอคอม) */
+.menu-icon {
+  display: none;
+  font-size: 1.8rem;
+  color: #333;
+  cursor: pointer;
+}
+
+/* ส่วนแสดง User */
+.user-section {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  padding-left: 20px;
+  margin-left: 10px;
+  border-left: 1px solid #e0e0e0;
+}
+
+.user-name {
+  color: #007bff;
+  font-weight: 600;
+  font-size: 0.95rem;
+}
+
+/* ปุ่มต่างๆ */
+.btn-login-nav, .btn-logout-nav {
+  padding: 8px 20px;
+  border-radius: 50px;
+  font-size: 0.9rem;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.2s;
+  text-decoration: none;
+  white-space: nowrap;
+}
+
+.btn-login-nav {
+  background-color: #007bff;
+  color: white;
+}
+
+.btn-login-nav:hover {
+  background-color: #0056b3;
+}
+
+.btn-logout-nav {
+  background-color: transparent;
+  color: #dc3545;
+  border: 1px solid #dc3545;
+}
+
+.btn-logout-nav:hover {
+  background-color: #dc3545;
+  color: white;
+}
+
+
+/* --- 2. สไตล์มือถือ (Mobile View) --- */
+@media screen and (max-width: 768px) {
+  
+  /* โชว์ปุ่ม Hamburger */
+  .menu-icon {
+    display: block;
+  }
+
+  /* ปรับเมนูให้เป็นลิ้นชักเลื่อนลงมา */
+  .nav-menu {
+    display: flex;
+    flex-direction: column; /* เรียงแนวตั้ง */
+    width: 100%;
+    position: absolute;
+    top: 70px; /* ต่อจาก Navbar ด้านบน */
+    left: -100%; /* ซ่อนไว้ทางซ้ายก่อน */
+    background-color: #ffffff;
+    padding: 20px 0;
+    transition: all 0.4s ease; /* เอฟเฟกต์เลื่อนนุ่มๆ */
+    box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+    border-top: 1px solid #f0f0f0;
+  }
+
+  /* คลาส active: เมื่อกดปุ่ม Hamburger ให้เลื่อนเมนูออกมา */
+  .nav-menu.active {
+    left: 0; 
+  }
+
+  /* จัดระเบียบรายการในเมนูมือถือ */
+  .nav-item {
+    width: 100%;
+    text-align: center;
+    padding: 15px 0;
+  }
+
+  .nav-link {
+    font-size: 1.1rem;
+    display: block;
+    width: 100%;
+  }
+
+  .nav-link:hover {
+    background-color: #f8f9fa;
+  }
+
+  /* ปรับส่วน User ในมือถือ */
+  .user-section {
+    flex-direction: column; /* เรียงแนวตั้ง */
+    border-left: none; /* เอาเส้นกั้นออก */
+    padding-left: 0;
+    margin-left: 0;
+    margin-top: 10px;
+    gap: 15px;
+    width: 100%;
+  }
+
+  .btn-logout-nav, .btn-login-nav {
+    width: 80%; /* ปุ่มกว้างเกือบเต็มจอ จะได้กดยาง */
+    display: block;
+    margin: 0 auto;
+    text-align: center;
+  }
 }
