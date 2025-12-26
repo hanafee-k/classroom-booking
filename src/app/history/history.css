@@ -73,6 +73,24 @@
   color: #666;
   font-size: 0.9rem;
 }
+/* ... (ของเดิม) ... */
+
+/* ปุ่มยกเลิกจองในตาราง */
+.btn-cancel-booking {
+  background-color: #fff;
+  border: 1px solid #dc3545;
+  color: #dc3545;
+  padding: 6px 12px;
+  border-radius: 6px;
+  cursor: pointer;
+  font-size: 0.85rem;
+  transition: all 0.2s;
+}
+
+.btn-cancel-booking:hover {
+  background-color: #dc3545;
+  color: white;
+}
 
 /* --- 📱 Mobile Responsive --- */
 @media (max-width: 768px) {

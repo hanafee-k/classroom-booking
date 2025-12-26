@@ -3,93 +3,105 @@
 import { useEffect, useState } from 'react';
 import { supabase } from '@/utils/supabase';
 import './history.css';
-import Navbar from '@/components/common/Navbar';
 
-export default function HistoryPage() {
+export default function History() {
   const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
-
-  const fetchHistory = async () => {
-    try {
-      // ดึงข้อมูลจากตาราง bookings และเชื่อมไปหาตาราง classrooms เพื่อเอาชื่อห้องมาด้วย
-      // สังเกตตรง select: เราสั่ง classrooms(name) ได้เลยเพราะมี Foreign Key เชื่อมกันอยู่
-      const { data, error } = await supabase
-        .from('bookings')
-        .select('*, classrooms(name, image_url)')
-        .order('id', { ascending: false }); // เรียงจากล่าสุดไปเก่าสุด
-
-      if (error) throw error;
-      setBookings(data || []);
-    } catch (error: any) {
-      console.error('Error fetching history:', error);
-      // alert(error.message); // ปิดไว้ก่อนเผื่อรำคาญ
-    } finally {
-      setLoading(false);
-    }
-  };
 
   useEffect(() => {
     fetchHistory();
   }, []);
 
-  // ฟังก์ชันแปลงวันที่ให้เป็นภาษาไทยอ่านง่ายๆ
-  const formatDate = (dateString: string) => {
-    if (!dateString) return '-';
-    const date = new Date(dateString);
-    return date.toLocaleString('th-TH', {
-      dateStyle: 'medium',
-      timeStyle: 'short',
-    });
+  const fetchHistory = async () => {
+    const { data: { session } } = await supabase.auth.getSession();
+    if (!session) return;
+
+    // ดึงข้อมูลการจอง + ข้อมูลห้อง (Join table)
+    const { data, error } = await supabase
+      .from('bookings')
+      .select(`
+        *,
+        classrooms (name, image_url)
+      `)
+      .eq('user_id', session.user.id)
+      .order('created_at', { ascending: false }); // ใหม่สุดขึ้นก่อน
+
+    if (data) setBookings(data);
+    setLoading(false);
   };
+
+  // --- 🕒 ฟังก์ชันแปลงเวลาเป็นแบบไทย (พระเอกของเรา) ---
+  const formatThaiDate = (dateString: string) => {
+    const date = new Date(dateString);
+    return date.toLocaleDateString('th-TH', {
+      year: 'numeric',
+      month: 'short', // หรือ 'long' ถ้าอยากได้เดือนเต็ม
+      day: 'numeric',
+      hour: '2-digit',
+      minute: '2-digit',
+      hour12: false // 👈 บังคับเป็น 24 ชม. (ไม่เอา AM/PM)
+    }) + ' น.';
+  };
+
+  // ฟังก์ชันยกเลิกการจอง
+  const handleCancel = async (bookingId: number) => {
+    if (!confirm('ต้องการยกเลิกการจองนี้ใช่ไหม?')) return;
+
+    const { error } = await supabase.from('bookings').delete().eq('id', bookingId);
+    if (!error) {
+      alert('ยกเลิกเรียบร้อย');
+      fetchHistory(); // โหลดข้อมูลใหม่
+    }
+  };
+
+  if (loading) return <div style={{textAlign:'center', marginTop: '50px'}}>กำลังโหลดประวัติ...</div>;
 
   return (
     <main>
-      <div className="container history-container">
-        <h1>📜 ประวัติการจองทั้งหมด</h1>
-        <p>บันทึกการใช้งานระบบ (เรียงจากล่าสุด)</p>
+      <div className="history-container">
+        <h1>📜 ประวัติการจองของฉัน</h1>
+        <p>ตรวจสอบรายการจองห้องเรียนทั้งหมดของคุณ</p>
 
-        {loading ? (
-          <p>⏳ กำลังโหลดข้อมูล...</p>
-        ) : (
-          <div className="table-wrapper">
-            <table className="history-table">
-              <thead>
-                <tr>
-                  <th>ลำดับ</th>
-                  <th>ห้องเรียน</th>
-                  <th>ผู้จอง</th>
-                  <th>เวลาที่ทำรายการ</th>
+        <div className="table-wrapper">
+          <table className="history-table">
+            <thead>
+              <tr>
+                <th>ห้องเรียน</th>
+                <th>วันที่และเวลา (เริ่ม - จบ)</th>
+                <th>สถานะ</th>
+              </tr>
+            </thead>
+            <tbody>
+              {bookings.map((booking) => (
+                <tr key={booking.id}>
+                  <td>
+                    <div className="room-cell">
+                      {booking.classrooms?.image_url && (
+                        <img src={booking.classrooms.image_url} alt="Room" className="mini-thumb" />
+                      )}
+                      <span>{booking.classrooms?.name || 'ไม่ระบุห้อง'}</span>
+                    </div>
+                  </td>
+                  <td>
+                    {/* เรียกใช้ฟังก์ชันแปลงเวลาไทยตรงนี้ */}
+                    <div className="timestamp">
+                      เริ่ม: {formatThaiDate(booking.start_time)} <br/>
+                      ถึง: {formatThaiDate(booking.end_time)}
+                    </div>
+                  </td>
+                  <td>
+                    <button className="btn-cancel-booking" onClick={() => handleCancel(booking.id)}>
+                      ยกเลิกจอง ❌
+                    </button>
+                  </td>
                 </tr>
-              </thead>
-              <tbody>
-                {bookings.map((item, index) => (
-                  <tr key={item.id}>
-                    <td>{bookings.length - index}</td>
-                    <td>
-                      <div className="room-cell">
-                        {/* เช็คก่อนว่ามีข้อมูล classrooms ไหม (เผื่อห้องโดนลบ) */}
-                        {item.classrooms?.image_url && (
-                          <img src={item.classrooms.image_url} alt="room" className="mini-thumb" />
-                        )}
-                        <span>{item.classrooms?.name || 'ไม่ทราบชื่อห้อง'}</span>
-                      </div>
-                    </td>
-                    <td className="student-name">{item.student_name}</td>
-                    <td className="timestamp">{formatDate(item.booking_time || item.created_at)}</td>
-                  </tr>
-                ))}
-                
-                {bookings.length === 0 && (
-                  <tr>
-                    <td colSpan={4} style={{textAlign: 'center', padding: '20px'}}>
-                      ยังไม่มีประวัติการจองครับ
-                    </td>
-                  </tr>
-                )}
-              </tbody>
-            </table>
-          </div>
-        )}
+              ))}
+              {bookings.length === 0 && (
+                <tr><td colSpan={3} className="empty-state">ไม่มีประวัติการจอง</td></tr>
+              )}
+            </tbody>
+          </table>
+        </div>
       </div>
     </main>
   );

@@ -95,4 +95,31 @@
   text-decoration: underline;
 }
 
+@media (max-width: 480px) {
+  .auth-container {
+    background: #fff;
+    align-items: flex-start;
+    padding: 40px 15px 15px;
+  }
+
+  .auth-card {
+    box-shadow: none;
+    border: none;
+    padding: 20px 0;
+  }
+
+  .auth-card h1 {
+    font-size: 1.6rem;
+  }
+
+  .form-group input {
+    padding: 14px;
+    font-size: 16px;
+  }
+
+  .btn-auth {
+    padding: 15px;
+  }
+}
+
 /*# sourceMappingURL=src_app_auth_auth_ee453f59.css.map*/

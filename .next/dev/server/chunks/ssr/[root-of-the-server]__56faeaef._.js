@@ -60,21 +60,19 @@ var __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$supabase$2e$
 function Navbar() {
     const router = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$navigation$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useRouter"])();
     const [user, setUser] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(null);
-    const [userName, setUserName] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(''); // เก็บชื่อที่จะโชว์
-    const [isOpen, setIsOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false); // สำหรับเมนูมือถือ
+    const [userName, setUserName] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])('');
+    const [userRole, setUserRole] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(''); // เก็บ Role (student/admin)
+    const [isOpen, setIsOpen] = (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useState"])(false);
     (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["useEffect"])(()=>{
         const getUser = async ()=>{
-            // 1. เช็คว่าล็อกอินอยู่ไหม
             const { data: { session } } = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$supabase$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["supabase"].auth.getSession();
             if (session) {
                 setUser(session.user);
-                // 2. ถ้าล็อกอิน ให้ไปดึง "ชื่อจริง" จากตาราง profiles
-                const { data: profile } = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$supabase$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["supabase"].from('profiles').select('full_name').eq('id', session.user.id).single();
-                // ถ้ามีชื่อใน profiles ให้ใช้ชื่อนั้น ถ้าไม่มีให้ใช้อีเมลหน้า @ ไปพลางๆ
-                if (profile && profile.full_name) {
-                    setUserName(profile.full_name);
-                } else {
-                    setUserName(session.user.email?.split('@')[0] || 'User');
+                // ดึงทั้งชื่อ และ Role มาด้วย
+                const { data: profile } = await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$supabase$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["supabase"].from('profiles').select('full_name, role').eq('id', session.user.id).single();
+                if (profile) {
+                    setUserName(profile.full_name || session.user.email?.split('@')[0] || 'User');
+                    setUserRole(profile.role); // เก็บ Role ไว้ใช้เช็ค
                 }
             }
         };
@@ -83,6 +81,7 @@ function Navbar() {
     const handleLogout = async ()=>{
         await __TURBOPACK__imported__module__$5b$project$5d2f$src$2f$utils$2f$supabase$2e$ts__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["supabase"].auth.signOut();
         setUser(null);
+        setUserRole('');
         router.push('/auth/login');
         router.refresh();
     };
@@ -97,7 +96,7 @@ function Navbar() {
                     children: "🏫 RMUTSV Booking"
                 }, void 0, false, {
                     fileName: "[project]/src/components/common/Navbar.tsx",
-                    lineNumber: 53,
+                    lineNumber: 51,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("div", {
@@ -106,7 +105,7 @@ function Navbar() {
                     children: "☰"
                 }, void 0, false, {
                     fileName: "[project]/src/components/common/Navbar.tsx",
-                    lineNumber: 58,
+                    lineNumber: 53,
                     columnNumber: 9
                 }, this),
                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("ul", {
@@ -120,12 +119,12 @@ function Navbar() {
                                 children: "หน้าแรก"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/common/Navbar.tsx",
-                                lineNumber: 65,
-                                columnNumber: 13
+                                lineNumber: 56,
+                                columnNumber: 36
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/common/Navbar.tsx",
-                            lineNumber: 64,
+                            lineNumber: 56,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -136,12 +135,12 @@ function Navbar() {
                                 children: "จองห้องเรียน"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/common/Navbar.tsx",
-                                lineNumber: 68,
-                                columnNumber: 13
+                                lineNumber: 57,
+                                columnNumber: 36
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/common/Navbar.tsx",
-                            lineNumber: 67,
+                            lineNumber: 57,
                             columnNumber: 11
                         }, this),
                         /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
@@ -152,13 +151,29 @@ function Navbar() {
                                 children: "ประวัติการจอง"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/common/Navbar.tsx",
-                                lineNumber: 71,
-                                columnNumber: 13
+                                lineNumber: 58,
+                                columnNumber: 36
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/common/Navbar.tsx",
-                            lineNumber: 70,
+                            lineNumber: 58,
                             columnNumber: 11
+                        }, this),
+                        userRole === 'admin' && /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
+                            className: "nav-item",
+                            children: /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])(__TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$client$2f$app$2d$dir$2f$link$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["default"], {
+                                href: "/admin/dashboard",
+                                className: "nav-link admin-link",
+                                children: "🛠️ ผู้ดูแลระบบ"
+                            }, void 0, false, {
+                                fileName: "[project]/src/components/common/Navbar.tsx",
+                                lineNumber: 63,
+                                columnNumber: 15
+                            }, this)
+                        }, void 0, false, {
+                            fileName: "[project]/src/components/common/Navbar.tsx",
+                            lineNumber: 62,
+                            columnNumber: 13
                         }, this),
                         user ? /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
                             className: "nav-item user-section",
@@ -171,7 +186,7 @@ function Navbar() {
                                     ]
                                 }, void 0, true, {
                                     fileName: "[project]/src/components/common/Navbar.tsx",
-                                    lineNumber: 77,
+                                    lineNumber: 71,
                                     columnNumber: 15
                                 }, this),
                                 /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("button", {
@@ -180,13 +195,13 @@ function Navbar() {
                                     children: "ออกจากระบบ"
                                 }, void 0, false, {
                                     fileName: "[project]/src/components/common/Navbar.tsx",
-                                    lineNumber: 78,
+                                    lineNumber: 72,
                                     columnNumber: 15
                                 }, this)
                             ]
                         }, void 0, true, {
                             fileName: "[project]/src/components/common/Navbar.tsx",
-                            lineNumber: 76,
+                            lineNumber: 70,
                             columnNumber: 13
                         }, this) : /*#__PURE__*/ (0, __TURBOPACK__imported__module__$5b$project$5d2f$node_modules$2f$next$2f$dist$2f$server$2f$route$2d$modules$2f$app$2d$page$2f$vendored$2f$ssr$2f$react$2d$jsx$2d$dev$2d$runtime$2e$js__$5b$app$2d$ssr$5d$__$28$ecmascript$29$__["jsxDEV"])("li", {
                             className: "nav-item",
@@ -196,29 +211,29 @@ function Navbar() {
                                 children: "เข้าสู่ระบบ"
                             }, void 0, false, {
                                 fileName: "[project]/src/components/common/Navbar.tsx",
-                                lineNumber: 84,
+                                lineNumber: 76,
                                 columnNumber: 15
                             }, this)
                         }, void 0, false, {
                             fileName: "[project]/src/components/common/Navbar.tsx",
-                            lineNumber: 83,
+                            lineNumber: 75,
                             columnNumber: 13
                         }, this)
                     ]
                 }, void 0, true, {
                     fileName: "[project]/src/components/common/Navbar.tsx",
-                    lineNumber: 63,
+                    lineNumber: 55,
                     columnNumber: 9
                 }, this)
             ]
         }, void 0, true, {
             fileName: "[project]/src/components/common/Navbar.tsx",
-            lineNumber: 51,
+            lineNumber: 50,
             columnNumber: 7
         }, this)
     }, void 0, false, {
         fileName: "[project]/src/components/common/Navbar.tsx",
-        lineNumber: 50,
+        lineNumber: 49,
         columnNumber: 5
     }, this);
 }
