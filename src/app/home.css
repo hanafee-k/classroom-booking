@@ -1,154 +1,693 @@
 /* src/app/home.css */
 
-/* จัดให้เนื้อหาเต็มจอ */
+/* Import ฟอนต์สวยๆ (ถ้ายังไม่มีใน layout.tsx) */
+@import url('https://fonts.googleapis.com/css2?family=Kanit:wght@300;400;600;800&display=swap');
+
 .home-container {
   min-height: 100vh;
-  background-color: #ffffff;
+  background-color: #f9fafb;
   display: flex;
   flex-direction: column;
+  font-family: 'Kanit', sans-serif;
 }
 
-/* --- Hero Section (ส่วนบนสุด) --- */
+/* --- 1. Hero Section --- */
 .hero-section {
-  background: linear-gradient(135deg, #f8f9fa 0%, #e9ecef 100%); /* ไล่สีพื้นหลังสวยๆ */
-  padding: 80px 20px;
+  /* ใส่ภาพพื้นหลัง (ถ้ามีรูปตึกใส่ URL ได้เลย) หรือใช้ Gradient */
+  background:
+    linear-gradient(135deg, rgba(0, 56, 147, 0.95) 0%, rgba(0, 86, 179, 0.85) 100%),
+    url('https://images.unsplash.com/photo-1562774053-701939374585?ixlib=rb-1.2.1&auto=format&fit=crop&w=1950&q=80');
+  background-size: cover;
+  background-position: center;
+  color: white;
+  padding: 100px 20px;
   text-align: center;
-  flex-grow: 1; /* ดันให้เต็มพื้นที่ */
-  display: flex;
-  align-items: center;
-  justify-content: center;
+  position: relative;
+  overflow: hidden;
 }
 
 .hero-content {
-  max-width: 800px;
+  position: relative;
+  z-index: 2;
+  max-width: 900px;
   margin: 0 auto;
 }
 
-.hero-title {
-  font-size: 3.5rem;
-  font-weight: 800;
-  color: #333;
-  line-height: 1.2;
+.badge-cpe {
+  background-color: #ffc107;
+  /* สีเหลืองวิศวะ */
+  color: #000;
+  padding: 5px 15px;
+  border-radius: 20px;
+  font-weight: bold;
+  font-size: 0.9rem;
+  display: inline-block;
   margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+}
+
+.hero-title {
+  font-size: 4rem;
+  font-weight: 800;
+  line-height: 1.1;
+  margin-bottom: 20px;
+  text-shadow: 0 4px 6px rgba(0, 0, 0, 0.2);
 }
 
 .highlight {
-  color: #007bff; /* สีเน้นข้อความ */
+  color: #c2d3f6;
+  font-weight: bold
 }
 
 .hero-subtitle {
-  font-size: 1.2rem;
-  color: #666;
+  font-size: 1.25rem;
+  color: #e0e7ff;
   margin-bottom: 40px;
-  line-height: 1.6;
+  font-weight: 300;
+  max-width: 700px;
+  margin-left: auto;
+  margin-right: auto;
 }
 
-/* ปุ่มกดในหน้าแรก */
+/* ปุ่มกด */
 .hero-buttons {
   display: flex;
-  gap: 15px;
+  gap: 20px;
   justify-content: center;
-}
-
-.btn-primary {
-  background-color: #007bff;
-  color: white;
-  padding: 12px 30px;
-  border-radius: 50px; /* ปุ่มมนๆ */
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1.1rem;
-  transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 4px 15px rgba(0, 123, 255, 0.3);
-}
-
-.btn-primary:hover {
-  background-color: #0056b3;
-  transform: translateY(-2px);
-}
-
-.btn-secondary {
-  background-color: white;
-  color: #333;
-  padding: 12px 30px;
-  border-radius: 50px;
-  text-decoration: none;
-  font-weight: bold;
-  font-size: 1.1rem;
-  border: 1px solid #ddd;
-  transition: background-color 0.2s;
-}
-
-.btn-secondary:hover {
-  background-color: #f8f9fa;
-  border-color: #ccc;
-}
-
-/* --- Features Section (ส่วนจุดเด่นด้านล่าง) --- */
-.features-section {
-  display: flex;
-  justify-content: center;
-  gap: 40px;
-  padding: 60px 20px;
-  background-color: white;
   flex-wrap: wrap;
 }
 
-.feature-item {
-  text-align: center;
-  max-width: 250px;
+.btn-primary {
+  background-color: #ffc107;
+  color: #000;
+  padding: 14px 35px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+  box-shadow: 0 4px 15px rgba(255, 193, 7, 0.4);
 }
 
-.feature-item .icon {
+.btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 6px 20px rgba(255, 193, 7, 0.6);
+  background-color: #ffca2c;
+}
+
+.btn-outline {
+  background-color: transparent;
+  color: white;
+  border: 2px solid rgba(255, 255, 255, 0.3);
+  padding: 14px 35px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+}
+
+.btn-outline:hover {
+  background-color: rgba(255, 255, 255, 0.1);
+  border-color: white;
+}
+
+/* --- 2. Stats Section --- */
+.stats-section {
+  display: flex;
+  justify-content: center;
+  gap: 60px;
+  background: white;
+  padding: 40px 20px;
+  margin-top: -30px;
+  /* ดึงขึ้นมาทับ Hero นิดหน่อย */
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 900px;
+  border-radius: 15px;
+  box-shadow: 0 10px 30px rgba(0, 0, 0, 0.08);
+  position: relative;
+  z-index: 3;
+  flex-wrap: wrap;
+}
+
+.stat-item {
+  text-align: center;
+}
+
+.stat-item h3 {
+  font-size: 2.5rem;
+  color: #003893;
+  /* สีกรมท่า */
+  font-weight: 800;
+  margin: 0;
+}
+
+.stat-item p {
+  color: #666;
+  font-size: 1rem;
+  margin: 0;
+}
+
+/* --- 3. Highlights Section --- */
+.highlights-section {
+  padding: 80px 20px;
+  text-align: center;
+}
+
+.section-header {
+  margin-bottom: 50px;
+}
+
+.section-header h2 {
+  font-size: 2.5rem;
+  color: #333;
+  margin-bottom: 10px;
+}
+
+.section-header p {
+  color: #666;
+}
+
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.feature-card {
+  background: white;
+  padding: 40px 30px;
+  border-radius: 20px;
+  border: 1px solid #eee;
+  transition: all 0.3s ease;
+  text-align: left;
+}
+
+.feature-card:hover {
+  transform: translateY(-10px);
+  box-shadow: 0 20px 40px rgba(0,0,0,0.08);
+  border-color: #007bff;
+}
+
+.card-icon {
   font-size: 3rem;
+  margin-bottom: 20px;
+  background: #f0f7ff;
+  width: 80px;
+  height: 80px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  border-radius: 50%;
+}
+
+.feature-card h3 {
+  font-size: 1.5rem;
+  color: #333;
   margin-bottom: 15px;
 }
 
-.feature-item h3 {
-  font-size: 1.2rem;
-  margin-bottom: 10px;
-  color: #333;
+.feature-card p {
+  color: #666;
+  line-height: 1.6;
 }
 
-.feature-item p {
-  color: #777;
+/* --- Feature List in Cards --- */
+.feature-list {
+  list-style: none;
+  padding: 0;
+  margin-top: 15px;
+}
+
+.feature-list li {
+  padding: 8px 0;
+  color: #555;
+  font-size: 0.95rem;
+  border-bottom: 1px solid #f0f0f0;
+}
+
+.feature-list li:last-child {
+  border-bottom: none;
+}
+
+/* --- 4. How It Works Section --- */
+.howto-section {
+  background: linear-gradient(135deg, #003893 0%, #0056b3 100%);
+  padding: 100px 20px;
+  text-align: center;
+  color: white;
+}
+
+/* สั่งแก้สีเฉพาะส่วน How It Works */
+.howto-section .section-header h2,
+.howto-section .section-header p {
+  color: #ffffff !important;
+}
+
+.steps-container {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 20px;
+  max-width: 1200px;
+  margin: 0 auto;
+  flex-wrap: wrap;
+}
+
+.step-card {
+  background: rgba(245, 242, 242, 0.15);
+  backdrop-filter: blur(10px);
+  border: 1px solid rgba(246, 241, 241, 0.2);
+  border-radius: 20px;
+  padding: 40px 30px;
+  text-align: center;
+  flex: 1;
+  min-width: 250px;
+  transition: all 0.3s;
+}
+
+.step-card:hover {
+  background: rgba(238, 235, 235, 0.25);
+  transform: translateY(-10px);
+}
+
+.step-number {
+  background: #ffc107;
+  color: #000;
+  width: 60px;
+  height: 60px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-size: 2rem;
+  font-weight: bold;
+  margin: 0 auto 20px;
+}
+
+.step-card h3 {
+  font-size: 1.5rem;
+  margin-bottom: 15px;
+}
+
+.step-card p {
+  font-size: 1rem;
+  opacity: 0.9;
+  line-height: 1.6;
+}
+
+.step-arrow {
+  font-size: 3rem;
+  color: rgba(255,255,255,0.5);
+  font-weight: bold;
+}
+
+/* --- 5. Features/Benefits Section --- */
+.features-section {
+  padding: 80px 20px;
+  background: #f8f9fa;
+}
+
+.benefits-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+  gap: 30px;
+  max-width: 1200px;
+  margin: 0 auto;
+}
+
+.benefit-item {
+  background: white;
+  padding: 30px;
+  border-radius: 15px;
+  text-align: center;
+  box-shadow: 0 5px 15px rgba(0,0,0,0.05);
+  transition: all 0.3s;
+}
+
+.benefit-item:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0,0,0,0.1);
+}
+
+.benefit-icon {
+  font-size: 3rem;
+  display: block;
+  margin-bottom: 15px;
+}
+
+.benefit-item h4 {
+  color: #333;
+  margin-bottom: 10px;
+  font-size: 1.3rem;
+}
+
+.benefit-item p {
+  color: #666;
+  line-height: 1.6;
   font-size: 0.95rem;
 }
 
-/* --- เพิ่มเติมต่อท้ายไฟล์เดิม --- */
+/* --- 6. Room Types Section --- */
+.roomtypes-section {
+  padding: 80px 20px;
+  background: white;
+}
 
-/* ปรับแต่งเฉพาะหน้าจอมือถือ (Mobile) ให้สวยขึ้น */
-@media (max-width: 576px) {
-  /* ลดความสูงของส่วนหัวลงหน่อย ในมือถือจะได้ไม่กินที่ */
-  .hero-section {
-    padding: 60px 15px;
-    min-height: auto; /* ให้สูงตามเนื้อหาพอ ไม่ต้องฟิก */
-  }
+.roomtype-list {
+  max-width: 1000px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 25px;
+}
 
-  /* ปรับขนาดตัวหนังสือให้พอดีตา */
+.roomtype-item {
+  background: linear-gradient(135deg, #f5f7fa 0%, #c3cfe2 100%);
+  border-radius: 20px;
+  padding: 35px;
+  border-left: 5px solid #007bff;
+  transition: all 0.3s;
+}
+
+.roomtype-item:hover {
+  box-shadow: 0 10px 30px rgba(0,0,0,0.1);
+  transform: translateX(10px);
+}
+
+.roomtype-header {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+  margin-bottom: 15px;
+}
+
+.roomtype-icon {
+  font-size: 2.5rem;
+}
+
+.roomtype-item h3 {
+  color: #333;
+  font-size: 1.6rem;
+  margin: 0;
+}
+
+.roomtype-item p {
+  color: #555;
+  line-height: 1.7;
+  margin-bottom: 20px;
+}
+
+.roomtype-specs {
+  display: flex;
+  gap: 20px;
+  flex-wrap: wrap;
+}
+
+.roomtype-specs span {
+  background: rgba(255,255,255,0.7);
+  padding: 8px 15px;
+  border-radius: 20px;
+  font-size: 0.9rem;
+  color: #333;
+  font-weight: 500;
+}
+
+/* --- 7. FAQ Section --- */
+.faq-section {
+  padding: 80px 20px;
+  background: #f9fafb;
+}
+
+.faq-container {
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+.faq-item {
+  background: white;
+  border-radius: 15px;
+  padding: 25px;
+  margin-bottom: 15px;
+  cursor: pointer;
+  border: 1px solid #e5e7eb;
+  transition: all 0.3s;
+}
+
+.faq-item:hover {
+  box-shadow: 0 5px 15px rgba(0,0,0,0.08);
+}
+
+.faq-item summary {
+  font-weight: 600;
+  font-size: 1.1rem;
+  color: #333;
+  cursor: pointer;
+  list-style: none;
+  display: flex;
+  align-items: center;
+  gap: 10px;
+}
+
+.faq-item summary::-webkit-details-marker {
+  display: none;
+}
+
+.faq-item p {
+  margin-top: 15px;
+  color: #666;
+  line-height: 1.7;
+  padding-left: 35px;
+}
+
+.faq-item[open] {
+  border-color: #007bff;
+}
+
+/* --- 8. CTA Section --- */
+.cta-section {
+  background: linear-gradient(135deg, #003893 0%, #0056b3 100%);
+  padding: 100px 20px;
+  text-align: center;
+  color: white;
+}
+
+.cta-content h2 {
+  font-size: 2.5rem;
+  margin-bottom: 20px;
+  font-weight: bold;
+}
+
+.cta-content p {
+  font-size: 1.2rem;
+  margin-bottom: 40px;
+  opacity: 0.9;
+}
+
+.cta-buttons {
+  display: flex;
+  gap: 20px;
+  justify-content: center;
+  flex-wrap: wrap;
+}
+
+.cta-btn-primary {
+  background: #ffc107;
+  color: #000;
+  padding: 16px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+  box-shadow: 0 5px 20px rgba(255,193,7,0.4);
+}
+
+.cta-btn-primary:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 8px 25px rgba(255,193,7,0.6);
+}
+
+.cta-btn-secondary {
+  background: transparent;
+  color: white;
+  border: 2px solid white;
+  padding: 16px 40px;
+  border-radius: 50px;
+  text-decoration: none;
+  font-weight: 600;
+  font-size: 1.1rem;
+  transition: all 0.3s;
+}
+
+.cta-btn-secondary:hover {
+  background: white;
+  color: #003893;
+}
+
+/* --- 9. Footer --- */
+.footer-section {
+  background-color: #1a1a1a;
+  color: #aaa;
+  padding: 60px 20px;
+  text-align: center;
+  margin-top: auto;
+}
+
+.footer-logo {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.footer-content p {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.copyright {
+  margin-top: 30px;
+  font-size: 0.9rem;
+  opacity: 0.6;
+  border-top: 1px solid #333;
+  padding-top: 20px;
+}
+
+/* --- Mobile Responsive --- */
+@media (max-width: 768px) {
   .hero-title {
-    font-size: 1.8rem; /* ลดขนาดหัวข้อ */
-    margin-bottom: 15px;
+    font-size: 2.5rem;
+  }
+  
+  .hero-section {
+    padding: 60px 20px 100px;
   }
 
-  .hero-subtitle {
-    font-size: 1rem;
-    margin-bottom: 30px;
+  .stats-section {
+    margin-top: -50px;
+    gap: 30px;
+    padding: 30px;
   }
 
-  /* ปรับปุ่มให้เต็มความกว้าง (กดง่ายในมือถือ) */
+  .stat-item {
+    width: 100%;
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+  }
+  
+  .stat-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
   .hero-buttons {
-    flex-direction: column; /* เรียงปุ่มแนวตั้ง */
+    flex-direction: column;
+  }
+  
+  .btn-primary, .btn-outline {
     width: 100%;
   }
+  
+  .steps-container {
+    flex-direction: column;
+  }
+  
+  .step-arrow {
+    transform: rotate(90deg);
+    font-size: 2rem;
+  }
+  
+  .section-header h2 {
+    font-size: 2rem;
+  }
+  
+  .cta-content h2 {
+    font-size: 2rem;
+  }
+  
+  .cta-buttons {
+    flex-direction: column;
+  }
+  
+  .cta-btn-primary,
+  .cta-btn-secondary {
+    width: 100%;
+  }
+  
+  .roomtype-specs {
+    flex-direction: column;
+  }
+}
 
-  .btn-primary, .btn-secondary {
-    width: 100%; /* ปุ่มกว้างเต็มจอ */
-    text-align: center;
+/* --- 4. Footer --- */
+.footer-section {
+  background-color: #1a1a1a;
+  color: #aaa;
+  padding: 60px 20px;
+  text-align: center;
+  margin-top: auto;
+}
+
+.footer-logo {
+  color: white;
+  font-size: 1.5rem;
+  font-weight: bold;
+  margin-bottom: 20px;
+}
+
+.footer-content p {
+  margin-bottom: 10px;
+  line-height: 1.6;
+}
+
+.copyright {
+  margin-top: 30px;
+  font-size: 0.9rem;
+  opacity: 0.6;
+  border-top: 1px solid #333;
+  padding-top: 20px;
+}
+
+/* --- Mobile Responsive --- */
+@media (max-width: 768px) {
+  .hero-title {
+    font-size: 2.5rem;
   }
 
-  /* ปรับการ์ดฟีเจอร์ */
-  .feature-item {
-    padding: 20px; /* ลดขอบการ์ดลงนิดนึง */
+  .hero-section {
+    padding: 60px 20px 100px;
+    /* เพิ่ม padding ล่างเผื่อ stats */
+  }
+
+  .stats-section {
+    margin-top: -50px;
+    gap: 30px;
+    padding: 30px;
+  }
+
+  .stat-item {
+    width: 100%;
+    /* เรียงแนวตั้งในมือถือ */
+    border-bottom: 1px solid #eee;
+    padding-bottom: 15px;
+  }
+
+  .stat-item:last-child {
+    border-bottom: none;
+    padding-bottom: 0;
+  }
+
+  .hero-buttons {
+    flex-direction: column;
+  }
+
+  .btn-primary,
+  .btn-outline {
+    width: 100%;
   }
 }

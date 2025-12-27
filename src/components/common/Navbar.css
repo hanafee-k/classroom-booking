@@ -19,7 +19,7 @@
 .nav-logo {
   font-size: 1.5rem;
   font-weight: bold;
-  color: #007bff;
+  color: #FFC107;
   text-decoration: none;
 }
 
@@ -40,7 +40,7 @@
 }
 
 .nav-link:hover {
-  color: #007bff;
+  color: #FFC107;
 }
 
 /* ส่วนแสดงชื่อผู้ใช้ */
@@ -49,7 +49,8 @@
   align-items: center;
   gap: 15px;
   padding-left: 15px;
-  border-left: 1px solid #eee; /* เส้นกั้นบางๆ */
+  border-left: 1px solid #eee;
+  /* เส้นกั้นบางๆ */
 }
 
 .user-name {
@@ -109,13 +110,13 @@
     flex-direction: column;
     padding: 20px 0;
     transition: 0.3s;
-    box-shadow: 0 5px 10px rgba(0,0,0,0.1);
+    box-shadow: 0 5px 10px rgba(0, 0, 0, 0.1);
   }
 
   .nav-menu.active {
     left: 0;
   }
-  
+
   .user-section {
     flex-direction: column;
     border-left: none;
@@ -129,7 +130,8 @@
 .navbar {
   background-color: #ffffff;
   box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1);
-  position: sticky; /* ให้เมนูติดด้านบนตลอด */
+  position: sticky;
+  /* ให้เมนูติดด้านบนตลอด */
   top: 0;
   z-index: 100;
   height: 70px;
@@ -201,7 +203,8 @@
 }
 
 /* ปุ่มต่างๆ */
-.btn-login-nav, .btn-logout-nav {
+.btn-login-nav,
+.btn-logout-nav {
   padding: 8px 20px;
   border-radius: 50px;
   font-size: 0.9rem;
@@ -235,7 +238,7 @@
 
 /* --- 2. สไตล์มือถือ (Mobile View) --- */
 @media screen and (max-width: 768px) {
-  
+
   /* โชว์ปุ่ม Hamburger */
   .menu-icon {
     display: block;
@@ -244,21 +247,25 @@
   /* ปรับเมนูให้เป็นลิ้นชักเลื่อนลงมา */
   .nav-menu {
     display: flex;
-    flex-direction: column; /* เรียงแนวตั้ง */
+    flex-direction: column;
+    /* เรียงแนวตั้ง */
     width: 100%;
     position: absolute;
-    top: 70px; /* ต่อจาก Navbar ด้านบน */
-    left: -100%; /* ซ่อนไว้ทางซ้ายก่อน */
+    top: 70px;
+    /* ต่อจาก Navbar ด้านบน */
+    left: -100%;
+    /* ซ่อนไว้ทางซ้ายก่อน */
     background-color: #ffffff;
     padding: 20px 0;
-    transition: all 0.4s ease; /* เอฟเฟกต์เลื่อนนุ่มๆ */
-    box-shadow: 0 10px 15px rgba(0,0,0,0.05);
+    transition: all 0.4s ease;
+    /* เอฟเฟกต์เลื่อนนุ่มๆ */
+    box-shadow: 0 10px 15px rgba(0, 0, 0, 0.05);
     border-top: 1px solid #f0f0f0;
   }
 
   /* คลาส active: เมื่อกดปุ่ม Hamburger ให้เลื่อนเมนูออกมา */
   .nav-menu.active {
-    left: 0; 
+    left: 0;
   }
 
   /* จัดระเบียบรายการในเมนูมือถือ */
@@ -280,8 +287,10 @@
 
   /* ปรับส่วน User ในมือถือ */
   .user-section {
-    flex-direction: column; /* เรียงแนวตั้ง */
-    border-left: none; /* เอาเส้นกั้นออก */
+    flex-direction: column;
+    /* เรียงแนวตั้ง */
+    border-left: none;
+    /* เอาเส้นกั้นออก */
     padding-left: 0;
     margin-left: 0;
     margin-top: 10px;
@@ -289,8 +298,10 @@
     width: 100%;
   }
 
-  .btn-logout-nav, .btn-login-nav {
-    width: 80%; /* ปุ่มกว้างเกือบเต็มจอ จะได้กดยาง */
+  .btn-logout-nav,
+  .btn-login-nav {
+    width: 80%;
+    /* ปุ่มกว้างเกือบเต็มจอ จะได้กดยาง */
     display: block;
     margin: 0 auto;
     text-align: center;
