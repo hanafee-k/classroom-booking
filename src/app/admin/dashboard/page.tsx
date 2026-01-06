@@ -2,23 +2,28 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/utils/supabase';
-import './admin.css'; // อย่าลืมสร้างไฟล์ CSS นี้นะครับ
+// ✅ 1. เปลี่ยน Import เป็นแบบใหม่
+import { createClient } from '@/utils/supabase/client';
+import Link from 'next/link';
+import './admin.css'; 
 
 export default function AdminPage() {
   const router = useRouter();
-  const [loading, setLoading] = useState(true); // สถานะโหลดหน้าเว็บ
+  // ✅ 2. ประกาศตัวแปร supabase
+  const supabase = createClient();
+
+  const [loading, setLoading] = useState(true);
   const [classrooms, setClassrooms] = useState<any[]>([]);
   
-  // State สำหรับฟอร์ม (ใช้ทั้งเพิ่มและแก้ไข)
+  // State สำหรับฟอร์ม
   const [formData, setFormData] = useState({
-    id: null as number | null, // ถ้ามี ID แปลว่ากำลังแก้ไข
+    id: null as number | null,
     name: '',
     capacity: '',
     image_url: ''
   });
 
-  // 1. เช็คสิทธิ์ Admin ก่อนเริ่ม (Security Check)
+  // เช็คสิทธิ์ Admin
   useEffect(() => {
     const checkAdmin = async () => {
       const { data: { session } } = await supabase.auth.getSession();
@@ -35,11 +40,10 @@ export default function AdminPage() {
 
       if (profile?.role !== 'admin') {
         alert('⛔ คุณไม่มีสิทธิ์เข้าถึงหน้านี้!');
-        router.push('/');
+        router.push('/'); // ดีดกลับหน้าแรก
         return;
       }
 
-      // ถ้าผ่านด่าน ให้โหลดข้อมูลห้อง
       fetchClassrooms();
       setLoading(false);
     };
@@ -47,18 +51,15 @@ export default function AdminPage() {
     checkAdmin();
   }, [router]);
 
-  // ฟังก์ชันโหลดห้อง
   const fetchClassrooms = async () => {
     const { data } = await supabase.from('classrooms').select('*').order('id', { ascending: true });
     if (data) setClassrooms(data);
   };
 
-  // ฟังก์ชันจัดการฟอร์ม
   const handleChange = (e: any) => {
     setFormData({ ...formData, [e.target.name]: e.target.value });
   };
 
-  // ฟังก์ชันบันทึก (รองรับทั้ง เพิ่มใหม่ และ แก้ไข)
   const handleSubmit = async (e: any) => {
     e.preventDefault();
     if (!formData.name || !formData.capacity) {
@@ -68,7 +69,7 @@ export default function AdminPage() {
 
     try {
       if (formData.id) {
-        // --- กรณีแก้ไข (Update) ---
+        // --- Update ---
         const { error } = await supabase
           .from('classrooms')
           .update({
@@ -80,7 +81,7 @@ export default function AdminPage() {
         if (error) throw error;
         alert('✅ แก้ไขข้อมูลห้องสำเร็จ!');
       } else {
-        // --- กรณีเพิ่มใหม่ (Insert) ---
+        // --- Insert ---
         const { error } = await supabase
           .from('classrooms')
           .insert([{
@@ -93,7 +94,6 @@ export default function AdminPage() {
         alert('✅ เพิ่มห้องใหม่สำเร็จ!');
       }
 
-      // รีเซ็ตฟอร์มและโหลดตารางใหม่
       setFormData({ id: null, name: '', capacity: '', image_url: '' });
       fetchClassrooms();
 
@@ -102,7 +102,6 @@ export default function AdminPage() {
     }
   };
 
-  // ฟังก์ชันเตรียมข้อมูลใส่ฟอร์มเพื่อแก้ไข
   const handleEdit = (room: any) => {
     setFormData({
       id: room.id,
@@ -110,27 +109,21 @@ export default function AdminPage() {
       capacity: room.capacity.toString(),
       image_url: room.image_url || ''
     });
-    // เลื่อนหน้าจอกลับไปที่ฟอร์มด้านบน
     window.scrollTo({ top: 0, behavior: 'smooth' });
   };
 
-  // ฟังก์ชันยกเลิกการแก้ไข
   const handleCancelEdit = () => {
     setFormData({ id: null, name: '', capacity: '', image_url: '' });
   };
 
-  // ฟังก์ชันลบห้อง
   const handleDelete = async (id: number) => {
-    if (!confirm('⚠️ ยืนยันการลบห้องนี้? ประวัติการจองทั้งหมดของห้องนี้จะหายไปทันที!')) return;
+    if (!confirm('⚠️ ยืนยันการลบห้องนี้?')) return;
 
     try {
-      // 1. ลบ Booking ของห้องนี้ก่อน
       await supabase.from('bookings').delete().eq('room_id', id);
-      // 2. ลบตัวห้อง
       const { error } = await supabase.from('classrooms').delete().eq('id', id);
 
       if (error) throw error;
-      alert('ลบห้องเรียบร้อยแล้วครับ 👋');
       fetchClassrooms();
     } catch (error: any) {
       alert(`ลบไม่ได้: ${error.message}`);

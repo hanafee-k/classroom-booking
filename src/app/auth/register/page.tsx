@@ -3,10 +3,16 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { supabase } from '@/utils/supabase';
+// ✅ นำเข้า createClient
+import { createClient } from '@/utils/supabase/client';
+// ✅ นำเข้า CSS (ใช้ตัวเดียวกับหน้า Login หรือ Register ก็ได้)
+import '../login/Login.css'; 
 
 export default function RegisterPage() {
   const router = useRouter();
+  // ✅ สร้างตัวแปร supabase (สำคัญมาก! ต้องมีบรรทัดนี้)
+  const supabase = createClient();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [confirmPassword, setConfirmPassword] = useState('');

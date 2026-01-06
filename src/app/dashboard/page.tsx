@@ -2,11 +2,14 @@
 
 import { useEffect, useState } from 'react';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/utils/supabase';
+import { createClient } from '@/utils/supabase/client';
 import './dashboard.css';
 
 export default function Dashboard() {
   const router = useRouter();
+  // ✅ เพิ่มบรรทัดนี้: สร้างตัวแปร supabase
+  const supabase = createClient();
+
   const [classrooms, setClassrooms] = useState<any[]>([]);
   const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
@@ -27,6 +30,9 @@ export default function Dashboard() {
       const { data: { session } } = await supabase.auth.getSession();
       if (session) {
         setUser(session.user);
+      } else {
+         // ถ้าไม่ได้ล็อกอิน อาจจะเด้งไปหน้า login หรือปล่อยให้ดูห้องเฉยๆ ก็ได้
+         // router.push('/auth/login'); 
       }
 
       // 2. ตั้งค่าวันที่เริ่มต้นเป็น "วันนี้"
@@ -62,6 +68,7 @@ export default function Dashboard() {
       const existingStart = new Date(booking.start_time);
       const existingEnd = new Date(booking.end_time);
 
+      // สูตรเช็คเวลาชนกัน (Overlap)
       if (start < existingEnd && end > existingStart) {
         return true;
       }
@@ -77,7 +84,7 @@ export default function Dashboard() {
     if (roomType === 'classroom') {
       filtered = filtered.filter(room => room.name.includes('ห้องเรียน'));
     } else if (roomType === 'lab') {
-      filtered = filtered.filter(room => room.name.includes('Lab'));
+      filtered = filtered.filter(room => room.name.includes('Lab') || room.name.includes('ปฏิบัติการ'));
     }
 
     // กรองตามคำค้นหา
@@ -130,6 +137,7 @@ export default function Dashboard() {
     }
 
     try {
+      // ดึงชื่อจริงจาก Profiles (ถ้ามี) หรือใช้ Email
       const { data: profile } = await supabase.from('profiles').select('full_name').eq('id', user.id).single();
       const userName = profile?.full_name || user.email;
 
@@ -144,7 +152,7 @@ export default function Dashboard() {
       if (error) throw error;
 
       alert('✅ จองห้องสำเร็จเรียบร้อย!');
-      fetchData();
+      fetchData(); // โหลดข้อมูลใหม่
 
     } catch (error: any) {
       alert(`จองไม่สำเร็จ: ${error.message}`);

@@ -1,10 +1,13 @@
 'use client';
 
 import { useEffect, useState } from 'react';
-import { supabase } from '@/utils/supabase';
+import { createClient } from '@/utils/supabase/client';
 import './history.css';
 
 export default function History() {
+  // 🟢 เพิ่มบรรทัดนี้: สร้างตัวแปร supabase เพื่อใช้ใน component นี้
+  const supabase = createClient();
+
   const [bookings, setBookings] = useState<any[]>([]);
   const [loading, setLoading] = useState(true);
 
@@ -30,16 +33,16 @@ export default function History() {
     setLoading(false);
   };
 
-  // --- 🕒 ฟังก์ชันแปลงเวลาเป็นแบบไทย (พระเอกของเรา) ---
+  // --- 🕒 ฟังก์ชันแปลงเวลาเป็นแบบไทย ---
   const formatThaiDate = (dateString: string) => {
     const date = new Date(dateString);
     return date.toLocaleDateString('th-TH', {
       year: 'numeric',
-      month: 'short', // หรือ 'long' ถ้าอยากได้เดือนเต็ม
+      month: 'short',
       day: 'numeric',
       hour: '2-digit',
       minute: '2-digit',
-      hour12: false // 👈 บังคับเป็น 24 ชม. (ไม่เอา AM/PM)
+      hour12: false
     }) + ' น.';
   };
 
@@ -55,7 +58,6 @@ export default function History() {
   };
 
   if (loading) return <div style={{textAlign:'center', marginTop: '50px'}}>กำลังโหลดประวัติ...</div>;
-
   return (
     <main>
       <div className="history-container">

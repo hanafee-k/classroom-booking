@@ -3,10 +3,12 @@
 import { useEffect, useState } from 'react';
 import Link from 'next/link';
 import { useRouter } from 'next/navigation';
-import { supabase } from '@/utils/supabase';
+import { createClient } from '@/utils/supabase/client'; // 1. แก้ Import ให้ตรงกับไฟล์อื่น
 import './Navbar.css';
 
 export default function Navbar() {
+  const supabase = createClient(); // 2. ประกาศตัวแปร supabase
+  
   const router = useRouter();
   const [user, setUser] = useState<any>(null);
   const [userName, setUserName] = useState<string>('');
