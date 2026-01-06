@@ -3,11 +3,13 @@
 import React, { useState } from 'react';
 import { useRouter } from 'next/navigation';
 import Link from 'next/link';
-import { supabase } from '@/utils/supabase';
+import { createClient } from '@/utils/supabase/client';
 import '../login/Login.css';
 
 export default function LoginPage() {
   const router = useRouter();
+  const supabase = createClient();
+
   const [email, setEmail] = useState('');
   const [password, setPassword] = useState('');
   const [loading, setLoading] = useState(false);
@@ -17,6 +19,7 @@ export default function LoginPage() {
     setLoading(true);
 
     try {
+      // ตอนนี้เรียกใช้ supabase ได้แล้ว
       const { error } = await supabase.auth.signInWithPassword({
         email: email.trim(),
         password: password,
@@ -32,17 +35,16 @@ export default function LoginPage() {
     } finally {
       setLoading(false);
     }
-
   };
 
-  // 1. เพิ่มฟังก์ชันสำหรับ Social Login
+  // ฟังก์ชันสำหรับ Social Login
   const handleSocialLogin = async (provider: 'google' | 'facebook') => {
-    setLoading(true); // หมุนติ้วๆ ระหว่างรอ
+    setLoading(true);
     try {
       const { error } = await supabase.auth.signInWithOAuth({
         provider: provider,
         options: {
-          // ตรงนี้สำคัญ: บอกให้มันเด้งกลับมาที่เว็บเรา
+          // ใช้ window.location.origin เพื่อให้รองรับทั้ง localhost และเว็บจริง
           redirectTo: `${window.location.origin}/auth/callback`,
         },
       });
